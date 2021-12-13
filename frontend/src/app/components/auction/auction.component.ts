@@ -13,8 +13,10 @@ export class AuctionComponent implements OnInit {
 
   ngOnInit(): void {
     //@ts-ignore
-    socket.on('chat message', (data)=> {
+    socket.on('price updated', (data)=> {
       console.log('received data ', data);
+      this.currentPrice = data.currentPrice;
+      console.log(this.currentPrice);
     });
   }
 

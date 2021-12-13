@@ -21,6 +21,7 @@ app.set('port', port);
 
 var server = http.createServer(app);
 const { Server } = require("socket.io");
+const { json } = require('express/lib/response');
 const io = new Server(server,{cors: {
   origin: '*',
 }});
@@ -28,8 +29,9 @@ const auctionRoomName = 'auction room';
 const priceUpdateEventName = 'price updated';
 
 io.on('connection', (socket) => {
-  socket.on('price updated', (msg) => {
-    console.log('price updated')
+  socket.on('price updated', (data) => {
+    console.log('price updated '+JSON.stringify(data));
+    io.emit('price updated', data);
   });
 });
 /**

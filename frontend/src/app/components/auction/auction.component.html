@@ -1,7 +1,7 @@
 <div class="container borderMargin">
     <div class="row">
         <div class="col">
-            <h1>Latest price {{currentPrice}}$</h1>
+            <h1>Latest price </h1> <input [(ngModel)]="currentPrice"/>
         </div>
         <div class="col">
             <button (click)="setBidePrice()">Increase bid price(+{{increseLimit}}) </button>
