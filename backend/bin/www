@@ -29,9 +29,9 @@ const auctionRoomName = 'auction room';
 const priceUpdateEventName = 'price updated';
 
 io.on('connection', (socket) => {
-  socket.on('price updated', (data) => {
+  socket.on(priceUpdateEventName, (data) => {
     console.log('price updated '+JSON.stringify(data));
-    io.emit('price updated', data);
+    io.emit(priceUpdateEventName, data);
   });
 });
 /**
