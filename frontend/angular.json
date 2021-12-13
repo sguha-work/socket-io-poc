@@ -13,7 +13,7 @@
           "style": "scss"
         },
         "@schematics/angular:application": {
-          "strict": false
+          "strict": true
         }
       },
       "root": "",
@@ -39,7 +39,7 @@
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+              "node_modules/bootstrap/dist/js/bootstrap.js"
             ]
           },
           "configurations": {
