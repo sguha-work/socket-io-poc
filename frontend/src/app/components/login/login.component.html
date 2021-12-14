@@ -1,0 +1,18 @@
+<div class="container">
+    <form [formGroup]="loginForm">  
+        <div class="container">   
+            <label>Username : </label>   
+            <input type="text" formControlName="userName" placeholder="Enter Username" name="userName" required>  
+        
+            <span *ngIf="isValid('userName')" class="error">Entered user name is invalid</span>
+            <br>
+            <label>Password : </label>   
+            <input type="password" formControlName="userPassword" placeholder="Enter Password" name="userPassword" required>  
+            <span *ngIf="isValid('userPassword')" class="error">Please enter valid password</span>
+        <br>
+            <button type="submit" (click)="login()">Login</button>   
+            <input type="checkbox" checked="checked"> Remember me   
+            <button type="button" class="cancelbtn"> Cancel</button>
+        </div>   
+    </form>     
+</div>
