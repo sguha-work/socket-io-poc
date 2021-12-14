@@ -2,16 +2,23 @@ var Car = require("../models/car");
 module.exports = {
   add: (data) => {
     return new Promise((resolve, reject) => {
-      if(typeof data.carNumber=='undefined'|| typeof data.carModelName == 'undefined' || typeof data.carImage == 'undefined' || typeof data.carBasePrice == 'undefined' ) {
+      if (
+        typeof data.carNumber == "undefined" ||
+        typeof data.carName == "undefined" ||
+        typeof data.carImage == "undefined" ||
+        typeof data.basePrice == "undefined"
+      ) {
         reject({ messege: "Error to add car" });
       }
       try {
         let car = new Car({
           carNumber: data.carNumber,
-          carModelName: data.carModelName,
           carImage: data.carImage,
-          carBasePrice: data.carBasePrice,
-          currentBidPrice: data.carBasePrice
+          carName: data.carName,
+          basePrice: data.basePrice,
+          addedBy: data.addedBy,
+          currentBid: data.basePrice,
+          currentHighestBidder: "",
         });
         car
           .save()
