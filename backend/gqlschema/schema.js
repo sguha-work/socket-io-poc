@@ -2,6 +2,8 @@ const graphql = require('graphql');
 const Car = require('../models/car');
 const User = require('../models/user');
 
+const Auction = require('../models/auction');
+
 const {
     GraphQLObjectType, GraphQLString,
     GraphQLID, GraphQLInt, GraphQLSchema, GraphQLFloat,
@@ -17,12 +19,27 @@ const CarType = new GraphQLObjectType({
     name: 'Car',
     fields: () => ({
         id: { type: GraphQLID },
+        carNumber: { type: GraphQLString },
+        carImage: { type: GraphQLString },
         carName: { type: GraphQLString },
         basePrice: { type: GraphQLFloat },
+        currentBid: { type: GraphQLFloat },
+        currentHighestBidder: {
+            type: UserType,
+            resolve(parent, args) {
+                return User.findById(parent.currentHighestBidder);
+            }
+        },
         addedBy: {
             type: UserType,
             resolve(parent, args) {
                 return User.findById(parent.addedBy);
+            }
+        },
+        auctionBids: {
+            type: new GraphQLList(AuctionType),
+            resolve(parent, args) {
+                return Auction.find({ carId: parent.id });
             }
         }
     })
@@ -38,10 +55,33 @@ const UserType = new GraphQLObjectType({
     fields: () => ({
         id: { type: GraphQLID },
         email: { type: GraphQLString, unique: true },
+        password: { type: GraphQLString },
         car: {
             type: new GraphQLList(CarType),
             resolve(parent, args) {
                 return Car.find({ userId: parent.id });
+            }
+        }
+    })
+});
+
+
+const AuctionType = new GraphQLObjectType({
+    name: 'Auction',
+    fields: () => ({
+        id: { type: GraphQLID },
+        car: {
+            type: CarType,
+            resolve(parent, args) {
+                return Car.findById(parent.carId);
+            }
+        },
+        bidValue: { type: GraphQLFloat },
+        // basePrice: { type: GraphQLFloat },
+        bidder: {
+            type: UserType,
+            resolve(parent, args) {
+                return User.findById(parent.bidderId);
             }
         }
     })
@@ -101,11 +141,12 @@ const Mutation = new GraphQLObjectType({
             args: {
                 //GraphQLNonNull make these field required
                 email: { type: new GraphQLNonNull(GraphQLString), unique: true },
-                // age: { type: new GraphQLNonNull(GraphQLInt) }
+                password: { type: new GraphQLNonNull(GraphQLString) }
             },
             resolve(parent, args) {
                 let user = new User({
-                    email: args.email
+                    email: args.email,
+                    password: args.password
                 });
                 return user.save();
             }
@@ -114,8 +155,12 @@ const Mutation = new GraphQLObjectType({
             type: CarType,
             args: {
                 carName: { type: new GraphQLNonNull(GraphQLString) },
+                carNumber: { type: new GraphQLNonNull(GraphQLString) },
+                carImage: { type: new GraphQLNonNull(GraphQLString) },
                 baseprice: { type: new GraphQLNonNull(GraphQLFloat) },
-                addedBy: { type: new GraphQLNonNull(GraphQLID) }
+                addedBy: { type: new GraphQLNonNull(GraphQLID) },
+                currentHighestBidder: { type: new GraphQLNonNull(GraphQLID) },
+                currentBid: { type: new GraphQLNonNull(GraphQLFloat) }
             },
             resolve(parent, args) {
                 let car = new Car({
@@ -124,6 +169,25 @@ const Mutation = new GraphQLObjectType({
                     addedBy: args.addedBy
                 })
                 return car.save()
+            }
+        },
+        submitBid: {
+            type: AuctionType,
+            args: {
+                carId: { type: new GraphQLNonNull(GraphQLString) },
+                bidderId: { type: new GraphQLNonNull(GraphQLString) },
+                bidValue: { type: new GraphQLNonNull(GraphQLFloat) },
+            },
+            async resolve(parent, args) {
+                let auctionBid = {
+                    carId: args.carId,
+                    bidderId: args.bidderId,
+                    bidValue: args.bidValue
+                };
+                // console.log(auctionBid);
+                return await Auction.findOneAndUpdate({ carId: auctionBid.carId, bidderId: auctionBid.bidderId }, auctionBid, { upsert: true });
+                // return auctionBid.save();
+
             }
         }
     }
