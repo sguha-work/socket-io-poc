@@ -3,13 +3,18 @@ var router = express.Router();
 var userService = require("./../services/user_service");
 
 router.post("/login", function (req, res, next) {
+    let response = {};
   userService
     .login(req.body)
     .then(() => {
-        res.send('success');
+        response.type="success";
+        response.messege = "success";
+        res.send(JSON.stringify(response));
     })
     .catch(() => {
-        res.send("error");
+        response.type="error";
+        response.messege = "error";
+        res.send(JSON.stringify(response));
     });  
 });
 router.post("/register", function (req, res, next) {

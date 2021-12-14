@@ -3,7 +3,6 @@ module.exports = {
   //auctionService: {
   login: (data) => {
     return new Promise((resolve, reject) => {
-      //let user = new User({});
       User.findOne({ userName: data.userName }, "userName", (err, data) => {
         if (err) {
           console.log(err);
