@@ -3,14 +3,13 @@ var router = express.Router();
 var carService = require("./../services/car_service");
 
 router.post("/add", function (req, res, next) {
-  console.log(JSON.stringify(req.body));
   let response = {};
   carService
     .add(req.body)
     .then(() => {
         response.type="success";
         response.messege = "New car addition successfull";
-        res.send(JSON.stringify(response));      res.send("");
+        res.send(JSON.stringify(response));
     })
     .catch(() => {
         response.type="error";
