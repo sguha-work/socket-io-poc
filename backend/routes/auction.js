@@ -2,7 +2,7 @@
 var express = require('express');
 var router = express.Router();
 var auctionService = require('./../services/auction_service');
-router.post('/set', function(req, res, next) {
+router.post('/add', function(req, res, next) {
   console.log(JSON.stringify(req));
   res.send('respond with a resource');
 });

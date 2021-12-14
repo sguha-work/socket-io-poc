@@ -6,7 +6,8 @@ module.exports = {
         typeof data.carNumber == "undefined" ||
         typeof data.carName == "undefined" ||
         typeof data.carImage == "undefined" ||
-        typeof data.basePrice == "undefined"
+        typeof data.basePrice == "undefined" ||
+        typeof data.addedBy == "undefined"
       ) {
         reject({ messege: "Error to add car" });
       }

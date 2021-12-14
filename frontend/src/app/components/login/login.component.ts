@@ -11,8 +11,8 @@ export class LoginComponent implements OnInit {
   public loginForm: FormGroup;
   constructor(private userService: UserService, private router: Router) {
     this.loginForm = new FormGroup({
-      userName: new FormControl(null, Validators.required),
-      userPassword: new FormControl(null, Validators.required),
+      email: new FormControl(null, Validators.required),
+      password: new FormControl(null, Validators.required),
     });
   }
 
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.userService.login(this.loginForm.value).subscribe((result: any) => {
         if(result.type=='success') {
-          this.userService.setUserNameToLocalStorage(this.loginForm.value.userName);
+          this.userService.setUserNameToLocalStorage(this.loginForm.value.email);
           this.router.navigate(['/home']);
         } else {
 

@@ -3,7 +3,7 @@ module.exports = {
   //auctionService: {
   login: (data) => {
     return new Promise((resolve, reject) => {
-      User.findOne({ userName: data.userName }, "userName", (err, data) => {
+      User.findOne({ email: data.email }, "userName", (err, data) => {
         if (err) {
           console.log(err);
           reject(err);
@@ -21,8 +21,8 @@ module.exports = {
   register: (data) => {
     return new Promise((resolve, reject) => {
       let user = new User({
-        userName: data.userName,
-        userPassword: data.userPassword,
+        email: data.email,
+        password: data.password,
       });
       user
         .save()

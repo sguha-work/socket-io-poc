@@ -20,11 +20,11 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
-const { Server } = require("socket.io");
+//const { Server } = require("socket.io");
 const { json } = require('express/lib/response');
-const io = new Server(server,{cors: {
-  origin: '*',
-}});
+var socketService = require('./../services/socket_service');
+socketService.createServer(server);
+const io = socketService.getio();
 const auctionRoomName = 'auction room';
 const priceUpdateEventName = 'price updated';
 
