@@ -18,7 +18,6 @@ router.post("/login", function (req, res, next) {
     });  
 });
 router.post("/register", function (req, res, next) {
-  console.log(JSON.stringify(req.body));
   userService
     .register(req.body)
     .then(() => {

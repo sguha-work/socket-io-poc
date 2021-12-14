@@ -5,10 +5,8 @@ module.exports = {
     return new Promise((resolve, reject) => {
       User.findOne({ email: data.email }, "userName", (err, data) => {
         if (err) {
-          console.log(err);
           reject(err);
         } else {
-          console.log(data);
           if (data == null) {
             reject();
           } else {
@@ -30,7 +28,6 @@ module.exports = {
           resolve(true);
         })
         .catch((error) => {
-          console.log(JSON.stringify(error));
           reject({ messege: "Error to register user" });
         });
     });

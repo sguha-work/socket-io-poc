@@ -17,7 +17,6 @@ router.post('/add', function(req, res, next) {
 });
 
 router.get('/get', function(req, res, next) {
-  console.log(auctionService.getLiveAuctionList());
   res.send('respond with a resource');
 });
 module.exports = router;

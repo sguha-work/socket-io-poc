@@ -27,7 +27,6 @@ module.exports = {
             resolve(true);
           })
           .catch((error) => {
-            console.log(JSON.stringify(error));
             reject({ messege: "Error to add car" });
           });
       } catch (e) {
@@ -45,6 +44,17 @@ module.exports = {
         }
       });
     });    
+  },
+  get:(query)=>{
+    return new Promise((resolve, reject)=>{
+      Car.find(query, (error, docs)=>{
+        if(error) {
+          reject();
+        } else {
+          resolve(docs);
+        }
+      });
+    });
   }
 };
 
