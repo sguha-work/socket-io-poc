@@ -35,4 +35,17 @@ module.exports = {
       }
     });
   },
+  updatePrice:(carId, newPrice, bidder)=>{
+    return new Promise((resolve, reject)=>{
+      Car.findByIdAndUpdate(carId, { currentBid: newPrice, currentHighestBidder: bidder }, (err, res)=>{
+        if(err) {
+          reject();
+        } else {
+          resolve();
+        }
+      });
+    });    
+  }
 };
+
+
