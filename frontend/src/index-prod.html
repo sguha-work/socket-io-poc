@@ -9,9 +9,9 @@
   <script src="assets/socket.io.min.js"></script>
 <script>
   // var socket = io("ws://localhost:3000");
+  // var location = window.location;
 
-  let wsUrl = (location.hostname === 'localhost') ? `localhost:3000` : `${location.hostname}:${location.port ? location.port : ''}`;
-  var socket = io(`ws://${wsUrl}`);
+  var socket = io(`ws://${location.hostname}:${location.port ? location.port : ''}`);
 
 </script>
 </head>

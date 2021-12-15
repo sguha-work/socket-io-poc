@@ -17,7 +17,8 @@ app.set('view engine', 'jade');
 
 var cors = require('cors');
 app.use(cors({
-  origin:'http://localhost:4200'
+  origin: '*'
+  // origin:'http://localhost:4200'
 }));
 
 var mongoose = require('mongoose');
