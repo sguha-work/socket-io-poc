@@ -1,5 +1,6 @@
 const { Server } = require("socket.io");
 var io, socketObj;
+var serverObj;
 var addListner = (socket) => {
   // price update event listner
   //socket.on(priceUpdateEventName, (data) => {
@@ -9,6 +10,9 @@ var addListner = (socket) => {
 };
 module.exports = {
   createServer: (server) => {
+    if (typeof serverObj === "undefined") {
+      serverObj = server;
+    }
     if (typeof io === "undefined") {
       io = new Server(server, {
         cors: {
