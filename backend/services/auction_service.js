@@ -20,12 +20,12 @@ module.exports = {
             .updatePrice(data.carId, data.bidValue, data.bidderId)
             .then(() => {
               // emiting broadcast method by socket
-              var io = socketService.getio();
-              var roomName = data.carId+'-auctionRoom';
-              io.on("connection", (socket) => {
-                socket.join(roomName);
-                io.to(roomName).emit(priceUpdated, data);
-              });
+              var socket = socketService.getSocketObj();
+              //io.on("connection", (socket) => {console.log('emitting event');
+                //socket.join(roomName);
+                //io.to(roomName).emit('price updated', data);
+                socket.emit("price updated", data);
+              //});
               resolve();
             })
             .catch(() => {

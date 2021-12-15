@@ -28,12 +28,16 @@ const io = socketService.getio();
 const auctionRoomName = 'auction room';
 const priceUpdateEventName = 'price updated';
 
-io.on('connection', (socket) => {
-  socket.on(priceUpdateEventName, (data) => {
-    console.log('price updated '+JSON.stringify(data));
-    io.emit(priceUpdateEventName, data);
-  });
-});
+//io.on('connect', (socket) => {
+  // socket.on(priceUpdateEventName, (data) => {
+  //   console.log('price updated '+JSON.stringify(data));
+  //   io.emit(priceUpdateEventName, data);
+  // });
+  // socket.on('room', function(room) {console.log('joined');
+  //   socket.join(room);
+  // });
+  console.log('socket on ');
+//});
 /**
  * Listen on provided port, on all network interfaces.
  */

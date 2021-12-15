@@ -14,7 +14,7 @@ export class UserService {
     }
   }
   public getUserInfo() {
-    return JSON.parse(localStorage[this.userLocalStorage]);
+    return localStorage[this.userLocalStorage];
   }
   public login(body: any) {
     return this.ajax.post('users/login', body);

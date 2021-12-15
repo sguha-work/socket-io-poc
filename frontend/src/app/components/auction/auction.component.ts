@@ -1,36 +1,48 @@
 import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
-
+import { CarService } from 'src/app/services/car.service';
+import { UserService } from 'src/app/services/user.service';
+import { AuctionService } from 'src/app/services/auction.service';
 @Component({
   selector: 'app-auction',
   templateUrl: './auction.component.html',
   styleUrls: ['./auction.component.scss']
 })
 export class AuctionComponent implements OnInit {
-  public currentPrice: number = 0;
   public increseLimit: number = 10;
-  @Input() carid: any = '';
-  constructor(private ref: ChangeDetectorRef) { }
+  @Input() car: any = '';
+  public currentPrice: number = 0;
+  constructor(private ref: ChangeDetectorRef, private userService: UserService, private auctionService: AuctionService) { }
 
   ngOnInit(): void {
+    this.currentPrice = parseInt(this.car.currentBid);
     //@ts-ignore
     socket.on('price updated', (data) => {
       console.log('received data ', data);
-      if (data.carId === this.carid) {
-        this.currentPrice = data.currentPrice;
-        console.log(this.currentPrice);
+      if (data.carId === this.car['_id']) {console.log(data.bidValue);
+        this.currentPrice = data.bidValue;
         this.ref.detectChanges();
       }
     });
+
+
   }
 
   public setBidePrice() {
     this.currentPrice += this.increseLimit;
     let objectToSend = {
-      carId: this.carid,
-      currentPrice: this.currentPrice
+      carId: this.car['_id'],
+      bidValue: this.currentPrice,
+      bidderId: this.userService.getUserInfo()
     };
-    //@ts-ignore
-    socket.emit('price updated', objectToSend);
-  }
+    this.auctionService.addAuctionEntry(objectToSend).subscribe((data)=>{
+      let auctionRoomName: string = this.car['_id']+'-auctionRoom';
+      //@ts-ignore
+    //   socket.on('connect', function() {
+    //     //@ts-ignore
+    //     socket.emit('room', room);
+    //  });
+    },(error)=>{
 
+    });
+  }
 }
