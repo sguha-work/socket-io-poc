@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
       socket.on('price updated', (data) => {
         console.log('received data ', data);
         let cars = this.cars;
+        this.cars = [];
         for (let index in this.cars) {
           if (data.carId == this.cars[index]['_id']) {
             console.log('setting value');

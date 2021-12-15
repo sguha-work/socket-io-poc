@@ -1,4 +1,7 @@
 const { Server } = require("socket.io");
+var Auction = require("./../models/auction");
+var carService = require("./car_service");
+
 var io, socketObj;
 var serverObj;
 var addListner = (socket) => {
@@ -7,6 +10,32 @@ var addListner = (socket) => {
   //console.log('price updated '+JSON.stringify(data));
   //io.emit(priceUpdateEventName, data);
   //});
+  socket.on("bid enterred", (data) => {
+    console.log('got a bid'+JSON.stringify(data)); 
+    let auction = new Auction({
+      carId: data.carId,
+      bidderId: data.bidderId,
+      bidValue: data.bidValue,
+    });
+    auction
+      .save()
+      .then(() => {
+        // updating car in db
+        carService
+          .updatePrice(data.carId, data.bidValue, data.bidderId)
+          .then(() => {
+            // emiting broadcast method by socket
+            console.log("price updated event triggered");
+            io.emit("price updated", data);
+          })
+          .catch((error) => {
+            console.log('car price updation failed'+JSON.stringify(error));
+          });
+      })
+      .catch(() => {
+        console.log('auction entry insertion failed');
+      });
+  });
 };
 module.exports = {
   createServer: (server) => {

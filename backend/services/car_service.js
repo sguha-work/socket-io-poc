@@ -38,7 +38,7 @@ module.exports = {
     return new Promise((resolve, reject)=>{
       Car.findByIdAndUpdate(carId, {$set:{ currentBid: newPrice, currentHighestBidder: bidder }}, (err, res)=>{
         if(err) {
-          reject();
+          reject(err);
         } else {
           resolve();
         }

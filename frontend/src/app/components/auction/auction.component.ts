@@ -41,15 +41,17 @@ export class AuctionComponent implements OnInit,OnChanges  {
       bidValue: this.currentPrice,
       bidderId: this.userService.getUserInfo()
     };
-    this.auctionService.addAuctionEntry(objectToSend).subscribe((data)=>{
-      let auctionRoomName: string = this.car['_id']+'-auctionRoom';
-      //@ts-ignore
-    //   socket.on('connect', function() {
-    //     //@ts-ignore
-    //     socket.emit('room', room);
-    //  });
-    },(error)=>{
+    //@ts-ignore
+    socket.emit('bid enterred', objectToSend);
+    // this.auctionService.addAuctionEntry(objectToSend).subscribe((data)=>{
+    //   let auctionRoomName: string = this.car['_id']+'-auctionRoom';
+    //   //@ts-ignore
+    // //   socket.on('connect', function() {
+    // //     //@ts-ignore
+    // //     socket.emit('room', room);
+    // //  });
+    // },(error)=>{
 
-    });
+    // });
   }
 }
