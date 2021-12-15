@@ -15,22 +15,9 @@ export class AuctionComponent implements OnInit,OnChanges  {
 
   ngOnInit(): void {console.log('auction initiated');
     this.currentPrice = parseInt(this.car.currentBid);
-    // //@ts-ignore
-    // socket.on('price updated', (data) => {
-    //   console.log('received data ', data);
-    //   if (data.carId == this.car['_id']) {console.log(data.bidValue);
-    //     this.currentPrice = data.bidValue;
-    //     this.ref.detectChanges();
-    //   }
-    // });
-
-
   }
-  ngOnChanges(changes: SimpleChanges) {console.log('changes called');
-    this.currentPrice = parseInt(this.car.currentBid);
-    if (changes.variable && changes.variable.currentValue) {
-      console.log(changes.variable.currentValue);
-    }
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('changes called');
   }
 
 
@@ -42,16 +29,6 @@ export class AuctionComponent implements OnInit,OnChanges  {
       bidderId: this.userService.getUserInfo()
     };
     //@ts-ignore
-    socket.emit('bid enterred', objectToSend);
-    // this.auctionService.addAuctionEntry(objectToSend).subscribe((data)=>{
-    //   let auctionRoomName: string = this.car['_id']+'-auctionRoom';
-    //   //@ts-ignore
-    // //   socket.on('connect', function() {
-    // //     //@ts-ignore
-    // //     socket.emit('room', room);
-    // //  });
-    // },(error)=>{
-
-    // });
+    socket.emit('bid enterred', objectToSend);    
   }
 }

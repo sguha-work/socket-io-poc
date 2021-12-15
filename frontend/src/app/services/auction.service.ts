@@ -10,4 +10,7 @@ export class AuctionService {
   addAuctionEntry(data: any): Observable<any> {
     return this.ajax.post('auction/add', data);
   }
+  getAuctionByCardId(carId: string) {
+    return this.ajax.get('auction/getEntriesByCar?carId='+carId);
+  }
 }
