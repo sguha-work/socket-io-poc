@@ -4,8 +4,11 @@ const User = require('../models/user');
 
 const Auction = require('../models/auction');
 
-const pubsub = require('./pubsub');
-const { subscriptions } = require('./pubsub');
+// const pubsub = require('./pubsub');
+// const { subscriptions } = require('./pubsub');
+
+const { PubSub } = require('graphql-subscriptions');
+const pubsub = new PubSub();
 
 const {
     GraphQLObjectType, GraphQLString,
@@ -28,7 +31,7 @@ const CarType = new GraphQLObjectType({
         basePrice: { type: GraphQLFloat },
         currentBid: { type: GraphQLFloat },
         currentHighestBidder: {
-            type:  UserType,
+            type: UserType,
             resolve(parent, args) {
                 if (parent.currentHighestBidder) return User.findById(parent.currentHighestBidder);
             }
@@ -134,12 +137,28 @@ const RootQuery = new GraphQLObjectType({
     }
 });
 
+const bidUpdated = 'bidUpdated';
+
 const Subscription = new GraphQLObjectType({
-    name: 'Subscription',
-    Car: {
-        subscribe: () => pubsub.asyncIterator('Car'),
-    },
+    name: "Subscription",
+    description: "subscriptions description",
+    fields: () => ({
+        submitBid: {
+            type: new GraphQLList(AuctionType),
+
+            subscribe: () => pubsub.asyncIterator("bidUpdated"),
+            resolve: async (body, args, context, info) => {
+                // get all allies and inform them that the house is diabled i.e became extinct. Here i am simply resturning the event body.
+                console.log("body newBid", body);
+                console.log("args newBid", args);
+
+                return Auction.find({});
+            }
+        }
+    })
 })
+
+
 
 
 //Very similar to RootQuery helps user to add/update to the database.
@@ -197,7 +216,11 @@ const Mutation = new GraphQLObjectType({
                 };
                 // console.log(auctionBid);
                 // pubsub.publish('Auction', {Link: {mutation: 'CREATED', node: auctionBid}});
-                return await Auction.findOneAndUpdate({ carId: auctionBid.carId, bidderId: auctionBid.bidderId }, auctionBid, { upsert: true });
+                
+                let xx =  await Auction.findOneAndUpdate({ carId: auctionBid.carId, bidderId: auctionBid.bidderId }, auctionBid, { upsert: true });
+                pubsub.publish("bidUpdated", xx);
+                console.log("xx", xx);
+                return xx;
                 // return auctionBid.save();
 
             }
@@ -211,5 +234,6 @@ const Mutation = new GraphQLObjectType({
 module.exports = new GraphQLSchema({
     query: RootQuery,
     mutation: Mutation,
-    // subscription: Subscription
+
+    subscription: Subscription
 });

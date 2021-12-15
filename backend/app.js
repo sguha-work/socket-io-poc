@@ -4,11 +4,13 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+const { createServer } = require('http');
+
 var indexRouter = require('./routes/index');
 var auctionRouter = require('./routes/auction');
 
 
-
+const { execute, subscribe } = require('graphql');
 const { graphqlHTTP } = require('express-graphql');
 const schema = require('./gqlschema/schema');
 
@@ -25,15 +27,46 @@ mongoose.connection.once('open', () => {
 var app = express();
 
 
+
+
+
+var PORT = 3001;
+const subscriptionsEndpoint = `ws://localhost:${PORT}/subscriptions`;
+
+
+
 //This route will be used as an endpoint to interact with Graphql, 
 //All queries will go through this route. 
 app.use('/graphql', graphqlHTTP({
   //Directing express-graphql to use this schema to map out the graph 
-  schema,
+  schema: schema,
   //Directing express-graphql to use graphiql when goto '/graphql' address in the browser
   //which provides an interface to make GraphQl queries
-  graphiql:true
+  graphiql: true,
+  subscriptionsEndpoint: subscriptionsEndpoint
 }));
+
+
+const webServer = createServer(app);
+const { SubscriptionServer } = require('subscriptions-transport-ws');
+webServer.listen(PORT, () => {
+  console.log(`GraphQL is now running on http://localhost:${PORT}`);
+  new SubscriptionServer(
+    {
+      execute,
+      subscribe,
+      schema
+    },
+    {
+      server: webServer,
+      path: '/subscriptions',
+    }
+  );
+
+})
+
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
