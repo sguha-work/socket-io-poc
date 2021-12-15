@@ -19,7 +19,7 @@ module.exports = {
           origin: "*",
         },
       });
-      io.on("connect", (socket) => {
+      io.on("connection", (socket) => {
         socketObj = socket;
         console.log("socket on ");
         addListner(socket);

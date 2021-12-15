@@ -20,9 +20,9 @@ module.exports = {
             .updatePrice(data.carId, data.bidValue, data.bidderId)
             .then(() => {
               // emiting broadcast method by socket
-              var socket = socketService.getSocketObj();
+              var io = socketService.getio();
               console.log('price update event triggered');
-              socket.emit("price updated", data);
+              io.emit("price updated", data);
               resolve();
             })
             .catch(() => {
