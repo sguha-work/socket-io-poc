@@ -21,11 +21,8 @@ module.exports = {
             .then(() => {
               // emiting broadcast method by socket
               var socket = socketService.getSocketObj();
-              //io.on("connection", (socket) => {console.log('emitting event');
-                //socket.join(roomName);
-                //io.to(roomName).emit('price updated', data);
-                socket.emit("price updated", data);
-              //});
+              console.log('price update event triggered');
+              socket.emit("price updated", data);
               resolve();
             })
             .catch(() => {

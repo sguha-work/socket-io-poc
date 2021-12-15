@@ -18,7 +18,7 @@ export class AuctionComponent implements OnInit {
     //@ts-ignore
     socket.on('price updated', (data) => {
       console.log('received data ', data);
-      if (data.carId === this.car['_id']) {console.log(data.bidValue);
+      if (data.carId == this.car['_id']) {console.log(data.bidValue);
         this.currentPrice = data.bidValue;
         this.ref.detectChanges();
       }
