@@ -8,13 +8,15 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { AuctionComponent } from './components/auction/auction.component';
 import { LoginComponent } from './components/login/login.component';
+import { CarDetailsComponent } from './components/car-details/car-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     AuctionComponent,
-    LoginComponent
+    LoginComponent,
+    CarDetailsComponent
   ],
   imports: [
     BrowserModule,

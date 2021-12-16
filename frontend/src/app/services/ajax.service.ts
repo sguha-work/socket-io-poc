@@ -22,7 +22,14 @@ export class AjaxService {
       observe: 'body'
     });
   }
-  get(url: string): Observable<any> {
-    return this.httpObj.get(this.urlEndPoint + url);
+  get(url: string, data?: String): Observable<any> {
+    if (typeof data === 'undefined') {
+      return this.httpObj.get(this.urlEndPoint + url);
+    } else {
+      let query: any = {
+        _id: data
+      };
+      return this.httpObj.get(this.urlEndPoint + url, { params: query });
+    }
   }
 }
