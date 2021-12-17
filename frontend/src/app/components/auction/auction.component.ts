@@ -33,6 +33,6 @@ export class AuctionComponent implements OnInit,OnChanges  {
     socket.emit('bid enterred', objectToSend);    
   }
   redirectToCarDetails(id:string) {
-    this.router.navigate(['car', id]); (1)
+    this.router.navigate(['car', id]);// (1)
   }
 }
