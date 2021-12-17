@@ -9,6 +9,7 @@ import { HomeComponent } from './components/home/home.component';
 import { AuctionComponent } from './components/auction/auction.component';
 import { LoginComponent } from './components/login/login.component';
 import { CarDetailsComponent } from './components/car-details/car-details.component';
+import { CarGalleryComponent } from './components/car-gallery/car-gallery.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { CarDetailsComponent } from './components/car-details/car-details.compon
     HomeComponent,
     AuctionComponent,
     LoginComponent,
-    CarDetailsComponent
+    CarDetailsComponent,
+    CarGalleryComponent
   ],
   imports: [
     BrowserModule,

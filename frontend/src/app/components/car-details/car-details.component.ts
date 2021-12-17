@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CarService } from 'src/app/services/car.service';
 import { UserService } from 'src/app/services/user.service';
@@ -14,13 +14,20 @@ export class CarDetailsComponent implements OnInit {
   public currentPrice: number = 0;
   public carSocket: any;
   private carId: string = '';
+  @Input() id: string = '';
   constructor(private ref: ChangeDetectorRef, private route: ActivatedRoute, private carService: CarService, private userService: UserService) {
-    this.route.params.subscribe((params: any) => {
-      this.carId = params.id;
-      this.loadCar(params.id);
-    });
+    
   }
   ngOnInit(): void {
+    if (this.id != '') {
+      this.carId = this.id;
+      this.loadCar(this.id);
+    } else {
+      this.route.params.subscribe((params: any) => {
+        this.carId = params.id;
+        this.loadCar(params.id);
+      });
+    }
     let wsUrl = (location.hostname === 'localhost') ? `localhost:3000` : `${location.hostname}:${location.port ? location.port : ''}`;
     //@ts-ignore
     this.carSocket = io(`ws://${wsUrl}/car/${this.carId}`);
