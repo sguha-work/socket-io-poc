@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CarService } from 'src/app/services/car.service';
 import { UserService } from 'src/app/services/user.service';
 
-@Component({
+@Component({ 
   selector: 'app-car-details',
   templateUrl: './car-details.component.html',
   styleUrls: ['./car-details.component.scss']
@@ -29,9 +29,9 @@ export class CarDetailsComponent implements OnInit {
       });
     }
     let wsUrl = (location.hostname === 'localhost') ? `localhost:3000` : `${location.hostname}:${location.port ? location.port : ''}`;
-    console.log('wsUrl '+`ws://${wsUrl}/car/${this.carId}`);
+    console.log('wsUrl '+`wss://${wsUrl}/car/${this.carId}`);
     //@ts-ignore
-    this.carSocket = io(`ws://${wsUrl}/car/${this.carId}`);
+    this.carSocket = io(`wss://${wsUrl}/car/${this.carId}`);
     //@ts-ignore
     //this.carSocket = io('/car',wsUrl);
     // creating listner for socket
