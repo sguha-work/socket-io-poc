@@ -29,6 +29,7 @@ export class CarDetailsComponent implements OnInit {
       });
     }
     let wsUrl = (location.hostname === 'localhost') ? `localhost:3000` : `${location.hostname}:${location.port ? location.port : ''}`;
+    console.log('wsUrl '+`ws://${wsUrl}/car/${this.carId}`);
     //@ts-ignore
     this.carSocket = io(`ws://${wsUrl}/car/${this.carId}`);
     //@ts-ignore

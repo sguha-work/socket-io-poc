@@ -6,8 +6,8 @@
 
 var app = require('../app');
 var debug = require('debug')('backend:server');
-var http = require('http');
-
+var https = require('https');
+const fs = require('fs');
 /**
  * Get port from environment and store in Express.
  */
@@ -19,17 +19,28 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+
 const { json } = require('express/lib/response');
-var socketService = require('./../services/socket_service');
-socketService.createServer(server);
+
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+// creating https server
+const server = https.createServer({
+  key: fs.readFileSync('./localhost+2-key.pem'), // path to localhost+2-key.pem
+  cert: fs.readFileSync('./localhost+2.pem'), // path to localhost+2.pem
+  requestCert: false,
+  rejectUnauthorized: false,
+}, app).listen(port, function(){
+console.log("Successfully started server on port 3000");
+});
+
+//server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+var socketService = require('./../services/socket_service');
+socketService.createServer(server);
 /**
  * Normalize a port into a number, string, or false.
  */

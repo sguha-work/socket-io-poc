@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+//const https = require('https');
 
 var indexRouter = require('./routes/index');
 var auctionRouter = require('./routes/auction');
@@ -10,6 +11,8 @@ var userRouter = require('./routes/user.js');
 var carRouter = require('./routes/car.js');
 
 var app = express();
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
