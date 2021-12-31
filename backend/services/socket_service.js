@@ -65,7 +65,7 @@ module.exports = {
       serverObj = server;
     }
     if (typeof io === "undefined") {
-      io = new Server(server, {
+      io = require("socket.io")(server, {
         cors: {
           origin: "*",
         },
@@ -77,7 +77,7 @@ module.exports = {
           .then((cars) => {
             cars.forEach((car) => {
               socket.join("auction_room_" + car["_id"]);
-              let carNamespace = io.of("/car/"+car["_id"]);
+              let carNamespace = io.of("/car/" + car["_id"]);
               carNamespace.on("connection", (socket) => {
                 console.log(`connected to car namespace`);
                 addListnerToCarSocket(socket);
