@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { CarService } from 'src/app/services/car.service';
 import { AuctionComponent } from '../auction/auction.component';
-
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -9,7 +9,7 @@ import { AuctionComponent } from '../auction/auction.component';
 })
 export class HomeComponent implements OnInit, AfterViewInit {
   public cars: any = [];
-  constructor(private carService: CarService, private ref: ChangeDetectorRef) { }
+  constructor(private router: Router, private carService: CarService, private ref: ChangeDetectorRef) { }
   //@ts-ignore
   //@ViewChild(AuctionComponent, { static: false }) child: AuctionComponent;
   ngOnInit(): void {
@@ -36,6 +36,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
 
     });
+  }
+  public goToCarGallery(): void {
+    this.router.navigate(['/gallery']);
   }
   ngAfterViewInit(): void {
     //console.log('child',this.child);

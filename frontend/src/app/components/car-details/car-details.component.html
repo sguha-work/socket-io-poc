@@ -1,10 +1,10 @@
-<div class="container borderMargin">
+<div class="container borderMargin" *ngIf="car!=null">
     <div class="row flex-column">
         <div class="col">
             <h1>Latest price {{car.currentBid}}$</h1>
         </div>
         <div class="col">
-            Car Data
+            Car Details
             <ul>
                 <li>{{car.carNumber}}</li>
                 <li>{{car.carName}}</li>
@@ -17,7 +17,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <a  (click)="redirectToCarDetails(car._id)" style="cursor: pointer;" ><img src="{{car.carImage}}"></a>
+            <img src="{{car.carImage}}">
         </div>        
     </div>
 </div>

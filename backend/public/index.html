@@ -20,11 +20,11 @@
   // var socket = io("ws://localhost:3000");
 
   let wsUrl = (location.hostname === 'localhost') ? `localhost:3000` : `${location.hostname}:${location.port ? location.port : ''}`;
-  var socket = io(`ws://${wsUrl}`);
-
+  var socket = io(`wss://${wsUrl}`);
+  //var carSocket=io(`ws://${wsUrl}/car`);
 </script>
 <link rel="stylesheet" href="styles.9a125d31bee8341bd348.css"></head>
 <body>
   <app-root></app-root>
-<script src="runtime.7b63b9fd40098a2e8207.js" defer></script><script src="polyfills.00096ed7d93ed26ee6df.js" defer></script><script src="scripts.4adbba21b76efc2040a5.js" defer></script><script src="main.62c1abe1d22202cd0307.js" defer></script></body>
+<script src="runtime.7b63b9fd40098a2e8207.js" defer></script><script src="polyfills.00096ed7d93ed26ee6df.js" defer></script><script src="scripts.4adbba21b76efc2040a5.js" defer></script><script src="main.b2f68f4946f5f6efe753.js" defer></script></body>
 </html>
