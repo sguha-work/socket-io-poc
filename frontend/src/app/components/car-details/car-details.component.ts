@@ -32,6 +32,7 @@ export class CarDetailsComponent implements OnInit {
     console.log('wsUrl '+`wss://${wsUrl}/car/${this.carId}`);
     //@ts-ignore
     this.carSocket = io(`wss://${wsUrl}/car/${this.carId}`);
+    
     //@ts-ignore
     //this.carSocket = io('/car',wsUrl);
     // creating listner for socket

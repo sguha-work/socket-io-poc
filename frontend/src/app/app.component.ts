@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   }
   ngOnInit(): void {
     if (this.userService.isUserLoggedIn()) {
-      this.router.navigate(['/home']);
+      //this.router.navigate(['/home']);
     } else {
       this.router.navigate(['/login']);
     }
