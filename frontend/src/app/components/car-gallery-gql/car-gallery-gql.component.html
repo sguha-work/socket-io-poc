@@ -1,0 +1,37 @@
+<h1>Car gallery graphql page</h1>
+<h3>Total number of cars {{cars.length}}</h3>
+
+<div class="container">
+    <div class="row" >
+        <div class="col" *ngFor="let car of cars">
+            <div class="container borderMargin">
+                <div class="row flex-column">
+                    <div class="col">
+                        <h1>Latest price {{car.currentBid}}$</h1>
+                    </div>
+                    <div class="col">
+                        Car Details
+                        <ul>
+                            <li>{{car.carNumber}}</li>
+                            <li>{{car.carName}}</li>
+                            <li>{{car.basePrice}}</li>
+                        </ul>
+                    </div>
+                    <div class="col">
+                        <button (click)="setBidePrice()">Increase bid price(+{{increseLimit}}) </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <img style="height:100px; width:100px;" src="{{car.carImage}}">
+                    </div>        
+                </div>
+            </div>
+        </div>        
+    </div>
+</div>
+
+
+
+
+    

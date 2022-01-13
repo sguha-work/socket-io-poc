@@ -1,94 +1,48 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { graphqlHTTP } = require('express-graphql');
-const { buildSchema } = require('graphql');
+var https = require("https");
 const mongoose = require('mongoose');
+const fs = require("fs");
 const app = express();
+const cors = require("cors");
 
-const Car = require('./models/car');
+const graphqlSchema = require('./graphql/schema/index');
+const graphqlResolvers = require('./graphql/resolvers/index');
 
 app.use(bodyParser.json());
-
+app.use(
+  cors({
+    origin: "*",
+    // origin:'http://localhost:4200'
+  })
+);
 app.use('/api', graphqlHTTP({
-    schema: buildSchema(`
-        type Car {
-            _id: ID!
-            carNumber: String!
-            carImage: String!
-            carName: String!
-            basePrice: Int!
-            addedBy: String!
-            currentBid: Int!
-            currentHighestBidder: String!
-        }
-        input CarInput {
-            carNumber: String!
-            carImage: String!
-            carName: String!
-            basePrice: Int!
-            addedBy: String!
-            currentBid: Int!
-            currentHighestBidder: String!
-        }
-        type RootQuery {
-            cars: [Car!]!
-        }
-        type RootMutation {
-            createCar(carinput: CarInput): Car
-        }
-        schema {
-            query: RootQuery
-            mutation: RootMutation
-        }
-    `),
-    rootValue: {
-        cars: async (args) => {
-            let result = await Car.find();
-            return result.map((dataChunk) => {
-                return { ...dataChunk._doc };
-            });
-        },
-        createCar: async (args) => {
-            // let car = {
-            //     _id: Math.random().toString(),
-            //     carNumber: args.carinput.carNumber,
-            //     carImage: args.carinput.carImage,
-            //     carName: args.carinput.carName,
-            //     basePrice: args.carinput.basePrice,
-            //     addedBy: args.carinput.addedBy,
-            //     currentBid: args.carinput.currentBid,
-            //     currentHighestBidder: args.carinput.currentHighestBidder
-            // }
-            let car = new Car({
-                carNumber: args.carinput.carNumber,
-                carImage: args.carinput.carImage,
-                carName: args.carinput.carName,
-                basePrice: args.carinput.basePrice,
-                addedBy: args.carinput.addedBy,
-                currentBid: args.carinput.currentBid,
-                currentHighestBidder: args.carinput.currentHighestBidder
-            });
-            let result;
-            try {
-                result = await car.save();
-            } catch (error) {
-                console.error('Unable to save car info', error);
-            }
-            return { ...result._doc };
-        }
-    },
-    graphiql: true
+  schema: graphqlSchema,
+  rootValue: graphqlResolvers,
+  graphiql: true
 }));
 console.log('connection to ' + `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.1f9ag.mongodb.net/${process.env.MONGO_DB_NAME}?retryWrites=true&w=majority`);
-mongoose.connect(
-    `mongodb+srv://angshu_mongo:HhWjjsZoi1wDqZkj@cluster0.1f9ag.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
-).then(() => {
-    console.log('Database connection established');
-    app.listen(3005, () => {
-        console.log(`Server running on PORT 3005`);
+const createAndStartListingToServer = (() => {
+  const server = https.createServer({
+    key: fs.readFileSync("./localhost3005.key"), // path to localhost+2-key.pem
+    cert: fs.readFileSync("./localhost3005.cert"), // path to localhost+2.pem
+    requestCert: false,
+    rejectUnauthorized: false,
+  },
+    app
+  )
+    .listen(3005, function () {
+      console.log("Successfully started server on port 3005");
     });
+});
+mongoose.connect(
+  `mongodb+srv://angshu_mongo:HhWjjsZoi1wDqZkj@cluster0.1f9ag.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`
+).then(() => {
+  console.log('Database connection established');
+  createAndStartListingToServer();
 }).catch((error) => {
-    console.error('Unable to connect to database ', error);
+  console.error('Unable to connect to database ', error);
 });
 
 

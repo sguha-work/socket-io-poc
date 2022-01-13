@@ -10,6 +10,8 @@ import { AuctionComponent } from './components/auction/auction.component';
 import { LoginComponent } from './components/login/login.component';
 import { CarDetailsComponent } from './components/car-details/car-details.component';
 import { CarGalleryComponent } from './components/car-gallery/car-gallery.component';
+import { CarGalleryGqlComponent } from './components/car-gallery-gql/car-gallery-gql.component';
+import { GraphQLModule } from './graphql.module';
 
 @NgModule({
   declarations: [
@@ -18,14 +20,16 @@ import { CarGalleryComponent } from './components/car-gallery/car-gallery.compon
     AuctionComponent,
     LoginComponent,
     CarDetailsComponent,
-    CarGalleryComponent
+    CarGalleryComponent,
+    CarGalleryGqlComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    GraphQLModule
   ],
   providers: [],
   bootstrap: [AppComponent]
