@@ -1,4 +1,7 @@
 const Car = require('./../../models/car');
+const { PubSub } = require('graphql-subscriptions');
+
+const pubsub = new PubSub();
 module.exports = {
     cars: async (args) => {
         let result = await Car.find();
@@ -33,5 +36,12 @@ module.exports = {
             console.error('Unable to save car info', error);
         }
         return { ...result._doc };
+    },
+    bidEntered: {
+        subscribe: () => {
+            pubsub.asyncIterator('bid_entered');
+            console.log('bid entered called');
+            pubsub.publish('bid_entered', { bidEntered: { carNumber: "123",currentBid: 100 }});
+        },
     }
 }

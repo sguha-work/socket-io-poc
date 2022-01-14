@@ -6,7 +6,8 @@ const mongoose = require('mongoose');
 const fs = require("fs");
 const app = express();
 const cors = require("cors");
-
+const { SubscriptionServer } = require('subscriptions-transport-ws');
+const { execute, subscribe } = require('graphql');
 const graphqlSchema = require('./graphql/schema/index');
 const graphqlResolvers = require('./graphql/resolvers/index');
 
@@ -29,12 +30,14 @@ const createAndStartListingToServer = (() => {
     cert: fs.readFileSync("./localhost3005.cert"), // path to localhost+2.pem
     requestCert: false,
     rejectUnauthorized: false,
-  },
-    app
-  )
+  }, app)
     .listen(3005, function () {
       console.log("Successfully started server on port 3005");
     });
+  SubscriptionServer.create({ graphqlSchema, graphqlResolvers, execute, subscribe }, {
+    server: server,
+    path:'/api' // Listens for 'upgrade' websocket events on the raw server
+  })
 });
 mongoose.connect(
   `mongodb+srv://angshu_mongo:HhWjjsZoi1wDqZkj@cluster0.1f9ag.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`

@@ -1,4 +1,5 @@
 const { buildSchema } = require('graphql');
+
 module.exports = buildSchema(`
         type Car {
             _id: ID!
@@ -25,8 +26,16 @@ module.exports = buildSchema(`
         type RootMutation {
             createCar(carinput: CarInput): Car
         }
+        type Subscription {
+            bidEntered: Result
+        }
+        type Result {
+            carNumber: String!
+            currentBid: Int!
+        }
         schema {
             query: RootQuery
             mutation: RootMutation
+            subscription: Subscription
         }
     `);
