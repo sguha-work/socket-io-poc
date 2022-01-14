@@ -1,0 +1,36 @@
+# mutation {
+#   createCar(car:{
+#     carNumber:"WB24AK3119", 
+#     carImage:"asfasffasf",
+#     carName:"Honda", 
+#     basePrice: 100, 
+#     currentBid: 100, 
+#     currentHighestBidder:"sguha1988.life@gmail.com",
+#     addedBy: "sguha1988.life@gmail.com"
+#   }) {
+#     carName
+#     carImage
+#     carNumber
+#     basePrice
+#     currentBid
+#     addedBy
+#     currentHighestBidder
+#   }
+
+# }
+#  mutation {
+#   updateBidPrice(id: "61e18d23b4a509d9d3701ff0",currentBid: 600) {
+#     carName
+#     carImage
+#     carNumber
+#     basePrice
+#     currentBid
+#     addedBy
+#     currentHighestBidder
+#   }
+# }
+#  query {
+#   getCars {
+#     currentBid
+#   }
+# }
