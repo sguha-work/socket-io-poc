@@ -20,13 +20,14 @@ const schema = makeExecutableSchema({
     typeDefs,
     resolvers
 });
+const port = process.env.PORT || 3005;
 const startServer = async () => {
     const app = express();
     const httpsServer = https.createServer({
         key: fs.readFileSync('localhost3005.key'),
         cert: fs.readFileSync('localhost3005.cert')
-    }, app).listen(3005, () => {
-        console.log(`Server listning to port 3005`);
+    }, app).listen(port, () => {
+        console.log(`Server listning to port ${port}`);
     });
     const subscriptionServer = SubscriptionServer.create({
         schema,
